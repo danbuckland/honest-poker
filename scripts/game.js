@@ -11,7 +11,7 @@ class Deck {
 
     const suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
     const names = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
-    const valueCodes = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
+    const valueCodes = ["A", 2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K"]
 
     suits.forEach((suit) => {
       names.forEach((name, i) => {
