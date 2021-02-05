@@ -1,6 +1,7 @@
 const debugText = document.querySelector('#debug')
 const communityCards = document.querySelector('#community-cards')
 const redrawButton = document.querySelector('#redraw')
+const gameBoard = document.querySelector('#game')
 
 const prettyPrint = (cards) => {
   let prettyString = ''
@@ -15,7 +16,7 @@ const renderCards = (cards) => {
   cards.forEach(card => {
     const cardImage = document.createElement('img')
     cardImage.setAttribute('src', `/cards/${card.code}.svg`)
-    cardImage.setAttribute('class', 'front-face')
+    cardImage.setAttribute('class', 'card')
     cardImage.setAttribute('alt', `${card.name} of ${card.suit}`)
     communityCards.appendChild(cardImage)
   });
