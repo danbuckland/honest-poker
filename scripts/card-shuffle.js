@@ -59,15 +59,3 @@ class Card {
     this.code = code
   }
 }
-
-// Temporary function for debugging
-prettyPrint = (cards) => {
-  let prettyString = ''
-  for (let card of cards) {
-    prettyString += `${card.name} of ${card.suit}, `
-  }
-  console.log(prettyString.substring(0, prettyString.length - 2))
-}
-
-const poker = new Game()
-prettyPrint(poker.deck.draw(5))
