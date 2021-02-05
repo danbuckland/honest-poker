@@ -3,6 +3,11 @@ class Game {
     this.deck = new Deck()
     this.deck.shuffle()
   }
+
+  reset() {
+    this.deck = new Deck()
+    this.deck.shuffle()
+  }
 }
 
 class Deck {
@@ -11,7 +16,7 @@ class Deck {
 
     const suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
     const names = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
-    const valueCodes = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
+    const valueCodes = ["A", 2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K"]
 
     suits.forEach((suit) => {
       names.forEach((name, i) => {
@@ -41,14 +46,6 @@ class Deck {
     }
     return drawnCards
   }
-
-  printDeck() {
-    let deck = "";
-    for (let card of this.cards) {
-      deck += `${card.code}, `
-    }
-    console.log(deck)
-  }
 }
 
 class Card {
@@ -59,15 +56,3 @@ class Card {
     this.code = code
   }
 }
-
-// Temporary function for debugging
-prettyPrint = (cards) => {
-  let prettyString = ''
-  for (let card of cards) {
-    prettyString += `${card.name} of ${card.suit}, `
-  }
-  console.log(prettyString.substring(0, prettyString.length - 2))
-}
-
-const poker = new Game()
-prettyPrint(poker.deck.draw(5))
