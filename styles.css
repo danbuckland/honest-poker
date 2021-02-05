@@ -26,9 +26,8 @@ body {
   color: #ffffff;
   font-size: 1.2rem;
   font-weight: 300;
-  margin-top: 1.2rem;
   padding: 1.2rem;
   display: block;
   margin: 1.2rem auto;
-  bottom: 0px;
+  outline: none;
 }
