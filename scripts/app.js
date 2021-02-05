@@ -15,7 +15,7 @@ const renderCards = (cards) => {
   communityCards.innerHTML = '';
   cards.forEach(card => {
     const cardImage = document.createElement('img')
-    cardImage.setAttribute('src', `/cards/${card.code}.svg`)
+    cardImage.setAttribute('src', `cards/${card.code}.svg`)
     cardImage.setAttribute('class', 'card')
     cardImage.setAttribute('alt', `${card.name} of ${card.suit}`)
     communityCards.appendChild(cardImage)
