@@ -41,14 +41,6 @@ class Deck {
     }
     return drawnCards
   }
-
-  printDeck() {
-    let deck = "";
-    for (let card of this.cards) {
-      deck += `${card.code}, `
-    }
-    console.log(deck)
-  }
 }
 
 class Card {
