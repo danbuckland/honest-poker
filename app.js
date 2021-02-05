@@ -1,7 +1,6 @@
 const debugText = document.querySelector('#debug')
 const communityCards = document.querySelector('#community-cards')
-const poker = new Game()
-
+const redrawButton = document.querySelector('#redraw')
 
 const prettyPrint = (cards) => {
   let prettyString = ''
@@ -12,7 +11,6 @@ const prettyPrint = (cards) => {
 }
 
 const renderCards = (cards) => {
-  // <img class="front-face" src="cards/AS.svg" alt="Ace of Spades" />
   communityCards.innerHTML = '';
   cards.forEach(card => {
     const cardImage = document.createElement('img')
@@ -23,6 +21,14 @@ const renderCards = (cards) => {
   });
 }
 
-const drawnCards = poker.deck.draw(5)
-debugText.textContent = prettyPrint(drawnCards)
+redrawButton.addEventListener('click', () => {
+  poker.reset()
+  drawnCards = poker.deck.draw(5)
+  renderCards(drawnCards)
+  console.log(prettyPrint(drawnCards))
+})
+
+const poker = new Game()
+let drawnCards = poker.deck.draw(5)
 renderCards(drawnCards)
+console.log(prettyPrint(drawnCards))

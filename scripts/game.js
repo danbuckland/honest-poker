@@ -3,6 +3,11 @@ class Game {
     this.deck = new Deck()
     this.deck.shuffle()
   }
+
+  reset() {
+    this.deck = new Deck()
+    this.deck.shuffle()
+  }
 }
 
 class Deck {
