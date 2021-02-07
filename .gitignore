@@ -2,3 +2,4 @@
 yarn-error.log
 *.pem
 node_modules/
+public/dist/

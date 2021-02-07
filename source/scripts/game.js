@@ -1,4 +1,4 @@
-class Game {
+export class Game {
   constructor() {
     this.deck = new Deck()
     this.deck.shuffle()

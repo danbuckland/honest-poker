@@ -1,7 +1,10 @@
-const debugText = document.querySelector('#debug')
+import './styles.css'
+import { Game } from'./scripts/game'
+
+const poker = new Game()
+
 const communityCards = document.querySelector('#community-cards')
 const redrawButton = document.querySelector('#redraw')
-const gameBoard = document.querySelector('#game')
 
 const prettyPrint = (cards) => {
   let prettyString = ''
@@ -29,7 +32,6 @@ redrawButton.addEventListener('click', () => {
   console.log(prettyPrint(drawnCards))
 })
 
-const poker = new Game()
 let drawnCards = poker.deck.draw(5)
 renderCards(drawnCards)
 console.log(prettyPrint(drawnCards))
