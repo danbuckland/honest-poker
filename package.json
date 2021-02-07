@@ -1,5 +1,5 @@
 {
-  "name": "multiplayer-poker",
+  "name": "honest-poker",
   "version": "0.0.1",
   "description": "A web based multiplayer poker game",
   "main": "index.js",
@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danbuckland/multiplayer-poker.git"
+    "url": "git+https://github.com/danbuckland/honest-poker.git"
   },
   "author": "Dan Buckland",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/danbuckland/multiplayer-poker/issues"
+    "url": "https://github.com/danbuckland/honest-poker/issues"
   },
-  "homepage": "https://github.com/danbuckland/multiplayer-poker#readme"
+  "homepage": "https://github.com/danbuckland/honest-poker#readme"
 }
