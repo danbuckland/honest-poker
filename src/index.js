@@ -1,5 +1,5 @@
+import Game from'./scripts/game'
 import './styles.css'
-import { Game } from'./scripts/game'
 
 const poker = new Game()
 
