@@ -4,7 +4,8 @@
   "description": "A web based multiplayer poker game",
   "main": "index.js",
   "scripts": {
-    "dev-server": "webpack serve"
+    "dev-server": "webpack serve --mode development",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
