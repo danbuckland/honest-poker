@@ -1,4 +1,4 @@
-import Game from'./scripts/game'
+import Game from './scripts/game'
 import './styles.css'
 
 const poker = new Game()
@@ -15,14 +15,14 @@ const prettyPrint = (cards) => {
 }
 
 const renderCards = (cards) => {
-  communityCards.innerHTML = '';
-  cards.forEach(card => {
+  communityCards.innerHTML = ''
+  cards.forEach((card) => {
     const cardImage = document.createElement('img')
     cardImage.setAttribute('src', `cards/${card.code}.svg`)
     cardImage.setAttribute('class', 'card')
     cardImage.setAttribute('alt', `${card.name} of ${card.suit}`)
     communityCards.appendChild(cardImage)
-  });
+  })
 }
 
 redrawButton.addEventListener('click', () => {

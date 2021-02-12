@@ -36,9 +36,9 @@ test('should return an array containing 5 cards when 5 are requested', () => {
   const deck = new Deck()
   const drawnCards = deck.draw(5)
   expect(drawnCards.length).toBe(5)
-  drawnCards.forEach(card => {
+  drawnCards.forEach((card) => {
     expect(card).toBeInstanceOf(Card)
-  });
+  })
   expect(deck.cards.length).toBe(47)
 })
 
@@ -52,7 +52,7 @@ test('should not be able to draw more than 52 cards from the deck', () => {
 test('should consider Ace to have the highest value', () => {
   const deck = new Deck()
   let drawnCard = deck.draw(1)[0]
-  while(drawnCard.name !== 'Ace') {
+  while (drawnCard.name !== 'Ace') {
     drawnCard = deck.draw(1)[0]
   }
   expect(drawnCard.value).toBe(14)
