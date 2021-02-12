@@ -5,12 +5,12 @@ export default class Deck {
     this.cards = []
 
     const suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
-    const names = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
-    const valueCodes = ["A", 2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K"]
+    const names = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"]
+    const valueCodes = [2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K", "A"]
 
     suits.forEach((suit) => {
       names.forEach((name, i) => {
-        this.cards.push(new Card(name, suit, (i + 1), (valueCodes[i] + suit[0])))
+        this.cards.push(new Card(name, suit, (i + 2), (valueCodes[i] + suit[0])))
       })
     })
   }

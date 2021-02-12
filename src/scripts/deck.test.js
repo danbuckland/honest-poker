@@ -48,3 +48,12 @@ test('should not be able to draw more than 52 cards from the deck', () => {
   expect(drawnCards.length).toBe(52)
   expect(deck.cards.length).toBe(0)
 })
+
+test('should consider Ace to have the highest value', () => {
+  const deck = new Deck()
+  let drawnCard = deck.draw(1)[0]
+  while(drawnCard.name !== 'Ace') {
+    drawnCard = deck.draw(1)[0]
+  }
+  expect(drawnCard.value).toBe(14)
+})
