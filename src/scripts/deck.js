@@ -17,16 +17,16 @@ export default class Deck {
 
   shuffle() {
     // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-    const { cards } = this;
-    let m = cards.length, i;
+    const { cards } = this
+    let m = cards.length, i
   
     while (m) {
       i = Math.floor(Math.random() * m--);
   
-      [cards[m], cards[i]] = [cards[i], cards[m]];
+      [cards[m], cards[i]] = [cards[i], cards[m]]
     }
   
-    return this;
+    return this
   }
 
   draw(n) {
