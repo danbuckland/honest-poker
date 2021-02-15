@@ -21,7 +21,7 @@ const threeOfSpades = new Card(3, 'Spades', 3, '3S')
 const twoOfSpades = new Card(2, 'Spades', 2, '2S')
 
 describe('Hand ranking algorithm', () => {
-  test('should idenitfy a Royal Flush when 5 consecutive cards of the same suit are Ace high', () => {
+  test('should identify a "Royal Flush" when 5 consecutive cards of the same suit are Ace high', () => {
     const hand = new Hand(
       aceOfSpades,
       kingOfSpades,
@@ -29,9 +29,11 @@ describe('Hand ranking algorithm', () => {
       jackOfSpades,
       tenOfSpades
     )
+    expect(hand.getRanking()).toBe(9)
     expect(hand.bestHand()).toBe('Royal Flush')
   })
-  test('should return "Straight Flush" when 5 consecutive cards of the same suit are not Ace high', () => {
+
+  test('should identify a "Straight Flush" when 5 consecutive cards of the same suit are not Ace high', () => {
     const hand = new Hand(
       kingOfSpades,
       queenOfSpades,
@@ -39,10 +41,11 @@ describe('Hand ranking algorithm', () => {
       tenOfSpades,
       nineOfSpades
     )
+    expect(hand.getRanking()).toBe(8)
     expect(hand.bestHand()).toBe('Straight Flush')
   })
 
-  test('should return "Four of a Kind" when 4 cards each have the same value', () => {
+  test('should identify a "Four of a Kind" when 4 cards each have the same value', () => {
     const hand = new Hand(
       aceOfClubs,
       aceOfSpades,
@@ -50,10 +53,11 @@ describe('Hand ranking algorithm', () => {
       aceOfHearts,
       kingOfSpades
     )
+    expect(hand.getRanking()).toBe(7)
     expect(hand.bestHand()).toBe('Four of a Kind')
   })
 
-  test('should return "Full House" when 5 cards are "Three of a Kind" and "One Pair"', () => {
+  test('should identify a "Full House" when 5 cards are "Three of a Kind" and "One Pair"', () => {
     const hand = new Hand(
       aceOfClubs,
       aceOfDiamonds,
@@ -61,10 +65,11 @@ describe('Hand ranking algorithm', () => {
       kingOfClubs,
       kingOfSpades
     )
+    expect(hand.getRanking()).toBe(6)
     expect(hand.bestHand()).toBe('Full House')
   })
 
-  test('should return "Flush" when 5 non-consecutive cards are of the same suit', () => {
+  test('should identify a "Flush" when 5 non-consecutive cards are of the same suit', () => {
     const hand = new Hand(
       queenOfSpades,
       jackOfSpades,
@@ -72,10 +77,11 @@ describe('Hand ranking algorithm', () => {
       nineOfSpades,
       twoOfSpades
     )
+    expect(hand.getRanking()).toBe(5)
     expect(hand.bestHand()).toBe('Flush')
   })
 
-  test('should return "Straight" when 5 consecutive cards are not all of the same suit', () => {
+  test('should identify a "Straight" when 5 consecutive cards are not all of the same suit', () => {
     const hand = new Hand(
       aceOfHearts,
       kingOfClubs,
@@ -83,10 +89,11 @@ describe('Hand ranking algorithm', () => {
       jackOfDiamonds,
       tenOfSpades
     )
+    expect(hand.getRanking()).toBe(4)
     expect(hand.bestHand()).toBe('Straight')
   })
 
-  test('should return "Three of a Kind" when 5 cards contain 3 cards of the same value', () => {
+  test('should identify a "Three of a Kind" when 5 cards contain 3 cards of the same value', () => {
     const hand = new Hand(
       aceOfClubs,
       aceOfHearts,
@@ -94,10 +101,11 @@ describe('Hand ranking algorithm', () => {
       jackOfDiamonds,
       tenOfSpades
     )
+    expect(hand.getRanking()).toBe(3)
     expect(hand.bestHand()).toBe('Three of a Kind')
   })
 
-  test('should return "Two Pair" when 5 cards contain 2 pairs of cards of different values', () => {
+  test('should identify a "Two Pair" when 5 cards contain 2 pairs of cards of different values', () => {
     const hand = new Hand(
       aceOfClubs,
       aceOfHearts,
@@ -105,10 +113,11 @@ describe('Hand ranking algorithm', () => {
       kingOfSpades,
       tenOfSpades
     )
+    expect(hand.getRanking()).toBe(2)
     expect(hand.bestHand()).toBe('Two Pair')
   })
 
-  test('should return "Pair" when 5 cards contains 2 cards of the same value', () => {
+  test('should identify a "Pair" when 5 cards contains 2 cards of the same value', () => {
     const hand = new Hand(
       aceOfClubs,
       aceOfHearts,
@@ -116,10 +125,11 @@ describe('Hand ranking algorithm', () => {
       queenOfSpades,
       tenOfSpades
     )
+    expect(hand.getRanking()).toBe(1)
     expect(hand.bestHand()).toBe('Pair')
   })
 
-  test('should return "High Card" when 5 cards are unable to make any other hand', () => {
+  test('should identify a "High Card" when 5 cards are unable to make any other hand', () => {
     const hand = new Hand(
       aceOfClubs,
       kingOfSpades,
@@ -127,6 +137,7 @@ describe('Hand ranking algorithm', () => {
       jackOfSpades,
       nineOfSpades
     )
+    expect(hand.getRanking()).toBe(0)
     expect(hand.bestHand()).toBe('High Card')
   })
 })
