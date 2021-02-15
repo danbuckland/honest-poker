@@ -32,99 +32,65 @@ export default class Hand {
   // Takes between 2 and 5 cards and returns the rank value of the hand
   getRanking() {
     const cardCounts = this.#getCounts()
-    const hasFlush = Object.keys(cardCounts.suits).length === 1
 
     // Royal Flush or Straight Flush
-    if (hasFlush && cardCounts.hasStraight) {
-      if (cardCounts.highCard === 14) {
-        return 9
-      } else {
-        // Code can never reach this line!
-        return 8
-      }
-    }
-    // Four of a Kind
-    const matches = {
-      fourOfAKind: false,
-      threeOfAKind: false,
-      pairs: 0,
-    }
-    for (const value in cardCounts.values) {
-      if (cardCounts.values[value] === 4) {
-        matches.fourOfAKind = true
-      } else if (cardCounts.values[value] === 3) {
-        matches.threeOfAKind = true
-      } else if (cardCounts.values[value] === 2) {
-        matches.pairs++
-      }
+    if (cardCounts.hasFlush && cardCounts.hasStraight) {
+      if (cardCounts.highCard === 14) return 9
+      return 8
     }
 
-    if (matches.fourOfAKind) {
-      return 7
-    }
-
-    if (matches.threeOfAKind && matches.pairs) {
-      return 6
-    }
-
-    if (hasFlush) {
-      return 5
-    }
-
-    if (cardCounts.hasStraight) {
-      return 4
-    }
-
-    if (matches.threeOfAKind) {
-      return 3
-    }
-
-    if (matches.pairs === 2) {
-      return 2
-    }
-
-    if (matches.pairs === 1) {
-      return 1
-    }
+    if (cardCounts.fourOfAKind) return 7
+    if (cardCounts.threeOfAKind && cardCounts.pairs) return 6
+    if (cardCounts.hasFlush) return 5
+    if (cardCounts.hasStraight) return 4
+    if (cardCounts.threeOfAKind) return 3
+    if (cardCounts.pairs === 2) return 2
+    if (cardCounts.pairs === 1) return 1
 
     return 0
   }
 
-  // Four of a kind
-  // {
-  //   suits: { Clubs: 1, Spades: 2, Diamonds: 1, Hearts: 1 },
-  //   values: { '13': 1, '14': 4 },
-  //   hasStraight: false,
-  //   highCard: 14
-  // }
-
   #getCounts() {
-    const cardCounter = {
+    const cardCounts = {
       suits: {},
       values: {},
+      fourOfAKind: false,
+      threeOfAKind: false,
+      pairs: 0,
     }
-    const values = []
+    const valuesArray = []
 
     this.cards.forEach((card) => {
-      cardCounter['values'][card.value] =
-        ++cardCounter['values'][card.value] || 1
-      cardCounter['suits'][card.suit] = ++cardCounter['suits'][card.suit] || 1
-      values.push(card.value)
+      cardCounts['values'][card.value] =
+        ++cardCounts['values'][card.value] || 1
+      cardCounts['suits'][card.suit] = ++cardCounts['suits'][card.suit] || 1
+      valuesArray.push(card.value)
     })
 
-    cardCounter['hasStraight'] = this.#hasStraight(values)
-    cardCounter['highCard'] = Math.max(...values)
+    cardCounts['hasStraight'] = this.#hasStraight(valuesArray)
+    cardCounts['highCard'] = Math.max(...valuesArray)
+    cardCounts['hasFlush'] = Object.keys(cardCounts.suits).length === 1
 
-    return cardCounter
+    for (const value in cardCounts.values) {
+      if (cardCounts.values[value] === 4) {
+        cardCounts['fourOfAKind'] = true
+      } else if (cardCounts.values[value] === 3) {
+        cardCounts['threeOfAKind'] = true
+      } else if (cardCounts.values[value] === 2) {
+        cardCounts['pairs']++
+      }
+    }
+
+    return cardCounts
   }
 
   #hasStraight(values) {
     if (values.length !== 5) return false
     values.sort((a, b) => {
-      return a - b;
+      return a - b
     })
     for (let i = values.length - 1; i > 0; i--) {
-      if ((values[i] - values[i - 1]) !== 1) {
+      if (values[i] - values[i - 1] !== 1) {
         return false
       }
     }
