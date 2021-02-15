@@ -1,33 +1,33 @@
-const path = require("path");
+const path = require('path')
 
 module.exports = {
-  mode: "none",
-  entry: "./src/index.js",
+  mode: 'none',
+  entry: './src/index.js',
   output: {
-    path: path.join(__dirname, "public/scripts"),
+    path: path.join(__dirname, 'public/scripts'),
   },
   module: {
     rules: [
       {
         test: /\.m?js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /\.test\.js$/],
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ['@babel/preset-env'],
           },
         },
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
         exclude: [/node_modules/],
       },
     ],
   },
   devServer: {
-    contentBase: path.join(__dirname, "public"),
-    publicPath: "/scripts/",
+    contentBase: path.join(__dirname, 'public'),
+    publicPath: '/scripts/',
   },
-  devtool: "source-map",
-};
+  devtool: 'source-map',
+}
