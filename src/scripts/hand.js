@@ -120,9 +120,11 @@ export default class Hand {
 
   #hasStraight(values) {
     if (values.length !== 5) return false
-    values.sort()
+    values.sort((a, b) => {
+      return a - b;
+    })
     for (let i = values.length - 1; i > 0; i--) {
-      if (values[i] - values[i - 1] !== 1) {
+      if ((values[i] - values[i - 1]) !== 1) {
         return false
       }
     }
