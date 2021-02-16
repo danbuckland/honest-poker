@@ -24,16 +24,13 @@ export default class Hand {
     this.cards = []
   }
 
-  // Takes between 1 and 7 cards and returns the name of the best hand
-  bestHand() {
+  getName() {
     return this.rankings[this.getRanking()]
   }
 
   // Takes between 2 and 5 cards and returns the rank value of the hand
   getRanking() {
     const cardCounts = this.#getCounts()
-
-    // Royal Flush or Straight Flush
     if (cardCounts.hasFlush && cardCounts.hasStraight) {
       if (cardCounts.highCard === 14) return 9
       return 8
@@ -61,15 +58,17 @@ export default class Hand {
     const valuesArray = []
 
     this.cards.forEach((card) => {
-      cardCounts['values'][card.value] =
-        ++cardCounts['values'][card.value] || 1
+      cardCounts['values'][card.value] = ++cardCounts['values'][card.value] || 1
       cardCounts['suits'][card.suit] = ++cardCounts['suits'][card.suit] || 1
       valuesArray.push(card.value)
     })
 
-    cardCounts['hasStraight'] = this.#hasStraight(valuesArray)
+    const handSize = this.cards.length
     cardCounts['highCard'] = Math.max(...valuesArray)
-    cardCounts['hasFlush'] = Object.keys(cardCounts.suits).length === 1
+    if (this.cards.length === 5) {
+      cardCounts['hasStraight'] = this.#hasStraight(valuesArray)
+      cardCounts['hasFlush'] = Object.keys(cardCounts.suits).length === 1
+    }
 
     for (const value in cardCounts.values) {
       if (cardCounts.values[value] === 4) {
@@ -85,7 +84,6 @@ export default class Hand {
   }
 
   #hasStraight(values) {
-    if (values.length !== 5) return false
     values.sort((a, b) => {
       return a - b
     })
