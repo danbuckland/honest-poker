@@ -1,10 +1,14 @@
 import Game from './scripts/game'
+import Hand from './scripts/hand'
 import './styles.css'
 
 const poker = new Game()
 
 const communityCards = document.querySelector('#community-cards')
 const redrawButton = document.querySelector('#redraw')
+const bestHandText = document.querySelector('#best-hand-text')
+
+const hand = new Hand()
 
 const prettyPrint = (cards) => {
   let prettyString = ''
@@ -27,11 +31,16 @@ const renderCards = (cards) => {
 
 redrawButton.addEventListener('click', () => {
   poker.reset()
+  hand.empty()
   drawnCards = poker.deck.draw(5)
   renderCards(drawnCards)
+  hand.addCards(...drawnCards)
+  bestHandText.textContent = `You got a ${hand.getName()}`
   console.log(prettyPrint(drawnCards))
 })
 
 let drawnCards = poker.deck.draw(5)
 renderCards(drawnCards)
+hand.addCards(...drawnCards)
+bestHandText.textContent = `You got a ${hand.getName()}`
 console.log(prettyPrint(drawnCards))
