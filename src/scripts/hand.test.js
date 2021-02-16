@@ -195,7 +195,6 @@ describe('Tiebreaker logic', () => {
       card.twoOfSpades,
       card.twoOfHearts
     )
-
     const fullHouseQueens = new Hand(
       card.queenOfSpades,
       card.queenOfDiamonds,
@@ -203,7 +202,6 @@ describe('Tiebreaker logic', () => {
       card.jackOfDiamonds,
       card.jackOfSpades
     )
-
     expect(fullHouseKings.score).toBeGreaterThan(fullHouseQueens.score)
   })
 
@@ -215,7 +213,6 @@ describe('Tiebreaker logic', () => {
       card.twoOfSpades,
       card.fourOfClubs
     )
-
     const threeOfAKind2s = new Hand(
       card.twoOfHearts,
       card.twoOfClubs,
@@ -223,7 +220,6 @@ describe('Tiebreaker logic', () => {
       card.aceOfSpades,
       card.kingOfClubs
     )
-
     expect(threeOfAKind3s.score).toBeGreaterThan(threeOfAKind2s.score)
   })
 
@@ -235,7 +231,6 @@ describe('Tiebreaker logic', () => {
       card.twoOfClubs,
       card.threeOfClubs
     )
-
     const twoPairKingsQueens = new Hand(
       card.kingOfClubs,
       card.kingOfDiamonds,
@@ -243,7 +238,24 @@ describe('Tiebreaker logic', () => {
       card.queenOfSpades,
       card.aceOfDiamonds
     )
-
     expect(twoPairAces2s.score).toBeGreaterThan(twoPairKingsQueens.score)
+  })
+
+  test('should always score a pair of Aces higher than a pair of Kings', () => {
+    const pairOfAces = new Hand(
+      card.aceOfSpades,
+      card.aceOfDiamonds,
+      card.twoOfSpades,
+      card.fourOfClubs,
+      card.threeOfClubs
+    )
+    const pairOfKings = new Hand(
+      card.kingOfClubs,
+      card.kingOfDiamonds,
+      card.queenOfHearts,
+      card.jackOfDiamonds,
+      card.aceOfDiamonds
+    )
+    expect(pairOfAces.score).toBeGreaterThan(pairOfKings.score)
   })
 })
