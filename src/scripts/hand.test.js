@@ -1,7 +1,7 @@
 import Hand from './hand'
 import * as card from './test-cards'
 
-describe('Hand ranking algorithm', () => {
+describe('Hand ranking logic for incomplete hands', () => {
   test('should identify "High Card" when provided any 2 cards that are not a pair', () => {
     const hand = new Hand(card.twoOfSpades, card.threeOfSpades)
     expect(hand.getRanking()).toBe(0)
@@ -62,7 +62,9 @@ describe('Hand ranking algorithm', () => {
     expect(hand.getRanking()).toBe(7)
     expect(hand.getName()).toBe('Four of a Kind')
   })
+})
 
+describe('Hand ranking logic for 5 card hands', () => {
   test('should identify "Royal Flush" when 5 consecutive cards of the same suit are Ace high', () => {
     const hand = new Hand(
       card.aceOfSpades,
@@ -182,7 +184,9 @@ describe('Hand ranking algorithm', () => {
     expect(hand.getRanking()).toBe(0)
     expect(hand.getName()).toBe('High Card')
   })
+})
 
+describe('Tiebreaker logic', () => {
   test('should score Full House Kings over 2s higher than Queens over Jacks', () => {
     const fullHouseKings = new Hand(
       card.kingOfClubs,
@@ -201,5 +205,45 @@ describe('Hand ranking algorithm', () => {
     )
 
     expect(fullHouseKings.score).toBeGreaterThan(fullHouseQueens.score)
+  })
+
+  test('should always score Three of a Kind 3s higher than Three of a Kind 2s', () => {
+    const threeOfAKind3s = new Hand(
+      card.threeOfSpades,
+      card.threeOfClubs,
+      card.threeOfDiamonds,
+      card.twoOfSpades,
+      card.fourOfClubs
+    )
+
+    const threeOfAKind2s = new Hand(
+      card.twoOfHearts,
+      card.twoOfClubs,
+      card.twoOfDiamonds,
+      card.aceOfSpades,
+      card.kingOfClubs
+    )
+
+    expect(threeOfAKind3s.score).toBeGreaterThan(threeOfAKind2s.score)
+  })
+
+  test('should always score Two Pair Aces and 2s higher than Two Pair Kings and Queens', () => {
+    const twoPairAces2s = new Hand(
+      card.aceOfSpades,
+      card.aceOfDiamonds,
+      card.twoOfSpades,
+      card.twoOfClubs,
+      card.threeOfClubs
+    )
+
+    const twoPairKingsQueens = new Hand(
+      card.kingOfClubs,
+      card.kingOfDiamonds,
+      card.queenOfHearts,
+      card.queenOfSpades,
+      card.aceOfDiamonds
+    )
+
+    expect(twoPairAces2s.score).toBeGreaterThan(twoPairKingsQueens.score)
   })
 })
