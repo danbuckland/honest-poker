@@ -26,20 +26,20 @@ const combinations = [
 
 // Takes 7 cards and returns the rank of the best hand
 const getBestHand = (cards) => {
-  let maxRank = -1
-  let ranking
+  let highScore = -1
+  let score
   let bestHand = null
   combinations.forEach(combination => {
-    const hand = new Hand()
+    const selectedCards = []
     combination.forEach((i) => {
-      hand.addCards(cards[i])
+      selectedCards.push(cards[i])
     })
-    ranking = hand.getRanking()
-    if (ranking > maxRank) {
-      maxRank = ranking
+    const hand = new Hand(...selectedCards)
+    if (hand.score > highScore) {
+      highScore = hand.score
       bestHand = hand
     }
-    if (maxRank === 9) {
+    if (highScore === 960) {
       return hand
     }
   })

@@ -21,7 +21,11 @@ describe('Hand ranking algorithm', () => {
   })
 
   test('should identify "Three of a Kind" when provided any 3 cards with the same value', () => {
-    const hand = new Hand(card.sevenOfClubs, card.sevenOfDiamonds, card.sevenOfHearts)
+    const hand = new Hand(
+      card.sevenOfClubs,
+      card.sevenOfDiamonds,
+      card.sevenOfHearts
+    )
     expect(hand.getRanking()).toBe(3)
     expect(hand.getName()).toBe('Three of a Kind')
   })
@@ -177,5 +181,25 @@ describe('Hand ranking algorithm', () => {
     )
     expect(hand.getRanking()).toBe(0)
     expect(hand.getName()).toBe('High Card')
+  })
+
+  test('should score Full House Kings over 2s higher than Queens over Jacks', () => {
+    const fullHouseKings = new Hand(
+      card.kingOfClubs,
+      card.kingOfSpades,
+      card.kingOfDiamonds,
+      card.twoOfSpades,
+      card.twoOfHearts
+    )
+
+    const fullHouseQueens = new Hand(
+      card.queenOfSpades,
+      card.queenOfDiamonds,
+      card.queenOfHearts,
+      card.jackOfDiamonds,
+      card.jackOfSpades
+    )
+
+    expect(fullHouseKings.score).toBeGreaterThan(fullHouseQueens.score)
   })
 })
