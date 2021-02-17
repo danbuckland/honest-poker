@@ -4,19 +4,19 @@ import * as card from './test-cards'
 describe('Hand ranking logic for incomplete hands', () => {
   test('should identify "High Card" when provided any 2 cards that are not a pair', () => {
     const hand = new Hand(card.twoOfSpades, card.threeOfSpades)
-    expect(hand.getRanking()).toBe(0)
+    expect(hand.getRank()).toBe(0)
     expect(hand.getName()).toBe('High Card')
   })
 
   test('should identify "Pair" when provided any 2 cards with the same value', () => {
     const hand = new Hand(card.jackOfSpades, card.jackOfDiamonds)
-    expect(hand.getRanking()).toBe(1)
+    expect(hand.getRank()).toBe(1)
     expect(hand.getName()).toBe('Pair')
   })
 
   test('should identify "High Card" when provided any 3 cards with different values', () => {
     const hand = new Hand(card.sevenOfClubs, card.aceOfClubs, card.kingOfClubs)
-    expect(hand.getRanking()).toBe(0)
+    expect(hand.getRank()).toBe(0)
     expect(hand.getName()).toBe('High Card')
   })
 
@@ -26,7 +26,7 @@ describe('Hand ranking logic for incomplete hands', () => {
       card.sevenOfDiamonds,
       card.sevenOfHearts
     )
-    expect(hand.getRanking()).toBe(3)
+    expect(hand.getRank()).toBe(3)
     expect(hand.getName()).toBe('Three of a Kind')
   })
 
@@ -37,7 +37,7 @@ describe('Hand ranking logic for incomplete hands', () => {
       card.kingOfSpades,
       card.aceOfSpades
     )
-    expect(hand.getRanking()).toBe(0)
+    expect(hand.getRank()).toBe(0)
     expect(hand.getName()).toBe('High Card')
   })
 
@@ -48,7 +48,7 @@ describe('Hand ranking logic for incomplete hands', () => {
       card.jackOfSpades,
       card.jackOfDiamonds
     )
-    expect(hand.getRanking()).toBe(2)
+    expect(hand.getRank()).toBe(2)
     expect(hand.getName()).toBe('Two Pair')
   })
 
@@ -59,7 +59,7 @@ describe('Hand ranking logic for incomplete hands', () => {
       card.aceOfDiamonds,
       card.aceOfHearts
     )
-    expect(hand.getRanking()).toBe(7)
+    expect(hand.getRank()).toBe(7)
     expect(hand.getName()).toBe('Four of a Kind')
   })
 })
@@ -73,7 +73,7 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.jackOfSpades,
       card.tenOfSpades
     )
-    expect(hand.getRanking()).toBe(9)
+    expect(hand.getRank()).toBe(9)
     expect(hand.getName()).toBe('Royal Flush')
   })
 
@@ -85,7 +85,7 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.tenOfSpades,
       card.nineOfSpades
     )
-    expect(hand.getRanking()).toBe(8)
+    expect(hand.getRank()).toBe(8)
     expect(hand.getName()).toBe('Straight Flush')
   })
 
@@ -97,7 +97,7 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.aceOfHearts,
       card.kingOfSpades
     )
-    expect(hand.getRanking()).toBe(7)
+    expect(hand.getRank()).toBe(7)
     expect(hand.getName()).toBe('Four of a Kind')
   })
 
@@ -109,7 +109,7 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.kingOfClubs,
       card.kingOfSpades
     )
-    expect(hand.getRanking()).toBe(6)
+    expect(hand.getRank()).toBe(6)
     expect(hand.getName()).toBe('Full House')
   })
 
@@ -121,7 +121,7 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.nineOfSpades,
       card.twoOfSpades
     )
-    expect(hand.getRanking()).toBe(5)
+    expect(hand.getRank()).toBe(5)
     expect(hand.getName()).toBe('Flush')
   })
 
@@ -133,7 +133,19 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.jackOfDiamonds,
       card.tenOfSpades
     )
-    expect(hand.getRanking()).toBe(4)
+    expect(hand.getRank()).toBe(4)
+    expect(hand.getName()).toBe('Straight')
+  })
+
+  test('should identify "Straight" when an Ace is used as a low card in Ace, 2, 3, 4, 5', () => {
+    const hand = new Hand(
+      card.aceOfClubs,
+      card.twoOfClubs,
+      card.threeOfDiamonds,
+      card.fourOfClubs,
+      card.fiveOfHearts
+    )
+    expect(hand.getRank()).toBe(4)
     expect(hand.getName()).toBe('Straight')
   })
 
@@ -145,7 +157,7 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.jackOfDiamonds,
       card.tenOfSpades
     )
-    expect(hand.getRanking()).toBe(3)
+    expect(hand.getRank()).toBe(3)
     expect(hand.getName()).toBe('Three of a Kind')
   })
 
@@ -157,7 +169,7 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.kingOfSpades,
       card.tenOfSpades
     )
-    expect(hand.getRanking()).toBe(2)
+    expect(hand.getRank()).toBe(2)
     expect(hand.getName()).toBe('Two Pair')
   })
 
@@ -169,7 +181,7 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.queenOfSpades,
       card.tenOfSpades
     )
-    expect(hand.getRanking()).toBe(1)
+    expect(hand.getRank()).toBe(1)
     expect(hand.getName()).toBe('Pair')
   })
 
@@ -181,30 +193,102 @@ describe('Hand ranking logic for 5 card hands', () => {
       card.jackOfSpades,
       card.nineOfSpades
     )
-    expect(hand.getRanking()).toBe(0)
+    expect(hand.getRank()).toBe(0)
     expect(hand.getName()).toBe('High Card')
   })
 })
 
 describe('Tiebreaker logic', () => {
-  test('should score Full House Kings over 2s higher than Queens over Jacks', () => {
-    const fullHouseKings = new Hand(
-      card.kingOfClubs,
-      card.kingOfSpades,
-      card.kingOfDiamonds,
+  test('should always score Four of a Kind 3s higher than Four 2s', () => {
+    const fourOfAKind3s = new Hand(
+      card.threeOfSpades,
+      card.threeOfDiamonds,
+      card.threeOfClubs,
+      card.threeOfHearts,
+      card.twoOfClubs
+    )
+    const fourOfAKind2s = new Hand(
+      card.twoOfHearts,
+      card.twoOfDiamonds,
+      card.twoOfClubs,
+      card.twoOfSpades,
+      card.aceOfDiamonds
+    )
+    expect(fourOfAKind3s.score).toBeGreaterThan(fourOfAKind2s.score)
+  })
+
+  test('should score Full House Aces over 2s higher than Kings over Queens', () => {
+    const fullHouseAces = new Hand(
+      card.aceOfDiamonds,
+      card.aceOfClubs,
+      card.aceOfHearts,
       card.twoOfSpades,
       card.twoOfHearts
     )
-    const fullHouseQueens = new Hand(
+    const fullHouseKings = new Hand(
       card.queenOfSpades,
       card.queenOfDiamonds,
-      card.queenOfHearts,
-      card.jackOfDiamonds,
-      card.jackOfSpades
+      card.kingOfDiamonds,
+      card.kingOfClubs,
+      card.kingOfSpades
     )
-    expect(fullHouseKings.score).toBeGreaterThan(fullHouseQueens.score)
+    expect(fullHouseAces.score).toBeGreaterThan(fullHouseKings.score)
   })
 
+  test('should score Full House 3s over 2s higher than 2s over Aces', () => {
+    const fullHouse3s = new Hand(
+      card.threeOfClubs,
+      card.threeOfDiamonds,
+      card.threeOfSpades,
+      card.twoOfSpades,
+      card.twoOfHearts
+    )
+    const fullHouse2s = new Hand(
+      card.twoOfClubs,
+      card.twoOfDiamonds,
+      card.twoOfHearts,
+      card.aceOfHearts,
+      card.aceOfSpades
+    )
+    expect(fullHouse3s.score).toBeGreaterThan(fullHouse2s.score)
+  })
+
+  test('should always score an Ace high flush higher than any King high flush', () => {
+    const aceHighFlush = new Hand(
+      card.aceOfHearts,
+      card.twoOfHearts,
+      card.threeOfHearts,
+      card.fourOfHearts,
+      card.sixOfHearts
+    )
+    const kingHighFlush = new Hand(
+      card.kingOfSpades,
+      card.queenOfSpades,
+      card.jackOfSpades,
+      card.tenOfSpades,
+      card.eightOfSpades
+    )
+    expect(aceHighFlush.score).toBeGreaterThan(kingHighFlush.score)
+  })
+
+  test('should look to next highest card when two flushes have the same high card', () => {
+    const aceHighFlush = new Hand(
+      card.aceOfHearts,
+      card.twoOfHearts,
+      card.threeOfHearts,
+      card.fourOfHearts,
+      card.sixOfHearts
+    )
+    const anotherAceHighFlush = new Hand(
+      card.aceOfSpades,
+      card.sixOfSpades,
+      card.fourOfSpades,
+      card.threeOfSpades,
+      card.fiveOfSpades
+    )
+    expect(anotherAceHighFlush.score).toBeGreaterThan(aceHighFlush.score)
+  })
+  
   test('should always score Three of a Kind 3s higher than Three of a Kind 2s', () => {
     const threeOfAKind3s = new Hand(
       card.threeOfSpades,
