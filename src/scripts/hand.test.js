@@ -139,11 +139,11 @@ describe('Hand ranking logic for 5 card hands', () => {
 
   test('should identify "Straight" when an Ace is used as a low card in Ace, 2, 3, 4, 5', () => {
     const hand = new Hand(
-      card.aceOfClubs,
       card.twoOfClubs,
       card.threeOfDiamonds,
-      card.fourOfClubs,
-      card.fiveOfHearts
+      card.aceOfClubs,
+      card.fiveOfHearts,
+      card.fourOfClubs
     )
     expect(hand.getRank()).toBe(4)
     expect(hand.getName()).toBe('Straight')
@@ -288,7 +288,7 @@ describe('Tiebreaker logic', () => {
     )
     expect(anotherAceHighFlush.score).toBeGreaterThan(aceHighFlush.score)
   })
-  
+
   test('should always score Three of a Kind 3s higher than Three of a Kind 2s', () => {
     const threeOfAKind3s = new Hand(
       card.threeOfSpades,
