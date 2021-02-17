@@ -342,4 +342,22 @@ describe('Tiebreaker logic', () => {
     )
     expect(pairOfAces.score).toBeGreaterThan(pairOfKings.score)
   })
+
+  test('should go to the next highest card repeatedly if high cards match', () => {
+    const aceHighHand = new Hand(
+      card.aceOfSpades,
+      card.sevenOfDiamonds,
+      card.sixOfSpades,
+      card.fourOfClubs,
+      card.threeOfClubs
+    )
+    const anotherAceHighHand = new Hand(
+      card.aceOfHearts,
+      card.sevenOfHearts,
+      card.sixOfHearts,
+      card.fourOfSpades,
+      card.twoOfSpades
+    )
+    expect(aceHighHand.score).toBeGreaterThan(anotherAceHighHand.score)
+  })
 })
