@@ -13,9 +13,11 @@ export default class Deck {
         this.cards.push(new Card(name, suit, i + 2, valueCodes[i] + suit[0]))
       })
     })
+
+    this.#shuffle()
   }
 
-  shuffle() {
+  #shuffle() {
     // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     const { cards } = this
     let m = cards.length, i

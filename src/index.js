@@ -29,18 +29,20 @@ const renderCards = (cards) => {
   })
 }
 
+const showWinningHand = (cards) => {
+  hand.addCards(...cards)
+  bestHandText.textContent = `You won with ${hand.getName()}!`
+  console.log(prettyPrint(cards))
+}
+
 redrawButton.addEventListener('click', () => {
   poker.reset()
   hand.empty()
   drawnCards = poker.deck.draw(5)
   renderCards(drawnCards)
-  hand.addCards(...drawnCards)
-  bestHandText.textContent = `You got a ${hand.getName()}`
-  console.log(prettyPrint(drawnCards))
+  showWinningHand(drawnCards)
 })
 
 let drawnCards = poker.deck.draw(5)
 renderCards(drawnCards)
-hand.addCards(...drawnCards)
-bestHandText.textContent = `You got a ${hand.getName()}`
-console.log(prettyPrint(drawnCards))
+showWinningHand(drawnCards)
