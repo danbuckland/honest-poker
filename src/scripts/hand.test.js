@@ -361,3 +361,31 @@ describe('Tiebreaker logic', () => {
     expect(aceHighHand.score).toBeGreaterThan(anotherAceHighHand.score)
   })
 })
+
+describe('Maximum hand size logic', () => {
+  test('should prevent hands being initialised with more than 5 cards', () => {
+    const attemptToCreate6CardHand = () => {
+      new Hand(
+        card.threeOfHearts,
+        card.fiveOfHearts,
+        card.aceOfDiamonds,
+        card.queenOfDiamonds,
+        card.tenOfSpades,
+        card.aceOfSpades
+      )
+    }
+    expect(attemptToCreate6CardHand).toThrowError()
+  })
+
+  test('should prevent cards being added to hands that already have 5 cards', () => {
+    const fullHand = new Hand(
+      card.threeOfHearts,
+      card.fiveOfHearts,
+      card.aceOfDiamonds,
+      card.queenOfDiamonds,
+      card.tenOfSpades,
+    )
+    expect(() => fullHand.addCards(card.aceOfSpades)).toThrowError()
+    expect(fullHand.cards.length).toBe(5)
+  })
+})

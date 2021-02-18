@@ -13,12 +13,20 @@ export default class Hand {
   ]
 
   constructor(...cards) {
+    if (cards.length > 5) {
+      throw Error ('Hands must contain 5 or less cards')
+    }
     this.cards = [...cards]
     this.score = this.getScore()
   }
 
   addCards(...cards) {
-    cards.forEach((card) => this.cards.push(card))
+    cards.forEach((card) => {
+      if (this.cards.length >= 5) {
+        throw Error ('Hand is full, unable to add more cards')
+      }
+      this.cards.push(card)
+    })
     this.score = this.getScore()
   }
 
