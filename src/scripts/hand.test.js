@@ -389,3 +389,17 @@ describe('Maximum hand size logic', () => {
     expect(fullHand.cards.length).toBe(5)
   })
 })
+
+describe('Empty hand method', () => {
+  test('should clear all cards from a hand resulting in 0 cards', () => {
+    const fullHand = new Hand(
+      card.threeOfHearts,
+      card.fiveOfHearts,
+      card.aceOfDiamonds,
+      card.queenOfDiamonds,
+      card.tenOfSpades,
+    )
+    fullHand.empty()
+    expect(fullHand.cards.length).toBe(0)
+  })
+})
