@@ -383,7 +383,7 @@ describe('Maximum hand size logic', () => {
       card.fiveOfHearts,
       card.aceOfDiamonds,
       card.queenOfDiamonds,
-      card.tenOfSpades,
+      card.tenOfSpades
     )
     expect(() => fullHand.addCards(card.aceOfSpades)).toThrowError()
     expect(fullHand.cards.length).toBe(5)
@@ -397,7 +397,7 @@ describe('Empty hand method', () => {
       card.fiveOfHearts,
       card.aceOfDiamonds,
       card.queenOfDiamonds,
-      card.tenOfSpades,
+      card.tenOfSpades
     )
     fullHand.empty()
     expect(fullHand.cards.length).toBe(0)

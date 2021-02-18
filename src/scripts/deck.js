@@ -20,11 +20,11 @@ export default class Deck {
   #shuffle() {
     // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     const { cards } = this
-    let m = cards.length, i
+    let m = cards.length
+    let i
 
     while (m) {
       i = Math.floor(Math.random() * m--)
-
       ;[cards[m], cards[i]] = [cards[i], cards[m]]
     }
 

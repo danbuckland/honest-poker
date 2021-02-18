@@ -37,4 +37,3 @@ export const fiveOfSpades = new Card(5, 'Spades', 5, '5S')
 export const fourOfSpades = new Card(4, 'Spades', 4, '4S')
 export const threeOfSpades = new Card(3, 'Spades', 3, '3S')
 export const twoOfSpades = new Card(2, 'Spades', 2, '2S')
-
