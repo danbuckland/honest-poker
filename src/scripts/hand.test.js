@@ -390,6 +390,20 @@ describe('Maximum hand size logic', () => {
   })
 })
 
+describe('Add cards method', () => {
+  test('should update the score when a card is added', () => {
+    const highCardHand = new Hand(
+      card.kingOfSpades,
+      card.queenOfSpades,
+      card.jackOfSpades,
+      card.tenOfSpades
+    )
+    expect(highCardHand.score).toBe(30742)
+    highCardHand.addCards(card.aceOfSpades)
+    expect(highCardHand.score).toBe(9000000)
+  })
+})
+
 describe('Empty hand method', () => {
   test('should clear all cards from a hand resulting in 0 cards', () => {
     const fullHand = new Hand(
@@ -401,5 +415,6 @@ describe('Empty hand method', () => {
     )
     fullHand.empty()
     expect(fullHand.cards.length).toBe(0)
+    expect(fullHand.score).toBe(0)
   })
 })

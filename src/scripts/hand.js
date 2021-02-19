@@ -32,6 +32,7 @@ export default class Hand {
 
   empty() {
     this.cards = []
+    this.score = 0
   }
 
   getName() {
@@ -40,7 +41,7 @@ export default class Hand {
 
   // Returns a value corresponding to the rankings array
   getRank() {
-    return Math.floor(this.score / 1000000)
+    return Math.floor(this.score / 1_000_000)
   }
 
   // Returns an absolute score of a hand of any number of cards
@@ -52,39 +53,39 @@ export default class Hand {
 
     if (cardCounts.hasFlush && cardCounts.hasStraight) {
       // Royal Flush - no tiebreaker
-      if (highCard === 14) return 9000000
+      if (highCard === 14) return 9_000_000
       // Straight Flush - high card tiebreaker
-      return 8000000 + highCard
+      return 8_000_000 + highCard
     }
     // 4 of a Kind - matching cards tiebreaker, no kicker
     if (cardCounts.fourOfAKind) {
-      return 7000000 + this.#fourOfAKindTiebreaker(cardCounts)
+      return 7_000_000 + this.#fourOfAKindTiebreaker(cardCounts)
     }
     // Full House - highest trip, then highest pair
     if (cardCounts.threeOfAKind && cardCounts.pairs.length > 0) {
       return (
-        6000000 +
+        6_000_000 +
         cardCounts.threeOfAKind * Math.pow(13, 2) +
         parseInt(cardCounts.pairs[0]) * Math.pow(13, 1)
       )
     }
     // Flush - high card tiebreaker, followed by next highest card
     if (cardCounts.hasFlush) {
-      return 5000000 + this.#highCardTiebreaker(cardCounts.valuesArray)
+      return 5_000_000 + this.#highCardTiebreaker(cardCounts.valuesArray)
     }
     // Straight - high card tiebreaker
-    if (cardCounts.hasStraight) return 4000000 + highCard
+    if (cardCounts.hasStraight) return 4_000_000 + highCard
     // Three of a Kind - highest trip, then next highest cards
     if (cardCounts.threeOfAKind) {
-      return 3000000 + this.#threeOfAKindTiebreaker(cardCounts)
+      return 3_000_000 + this.#threeOfAKindTiebreaker(cardCounts)
     }
     // Two Pair - highest top pair, then highest bottom pair, then highest remaining card
     if (cardCounts.pairs.length === 2) {
-      return 2000000 + this.#twoPairTiebreaker(cardCounts)
+      return 2_000_000 + this.#twoPairTiebreaker(cardCounts)
     }
     // Pair - highest pair, then next highest cards
     if (cardCounts.pairs.length === 1) {
-      return 1000000 + this.#pairTiebreaker(cardCounts)
+      return 1_000_000 + this.#pairTiebreaker(cardCounts)
     }
     // High card - Highest card then next highest card
     return 0 + this.#highCardTiebreaker(cardCounts.valuesArray)
@@ -158,8 +159,8 @@ export default class Hand {
     })
 
     cardCounts['highCard'] = Math.max(...cardCounts.valuesArray)
+    cardCounts.valuesArray.sort((a, b) => a - b)
     if (this.cards.length === 5) {
-      cardCounts.valuesArray.sort((a, b) => a - b)
       // Handle unique case where Ace is low in a 5-high "wheel" straight
       if (JSON.stringify(cardCounts.valuesArray) === '[2,3,4,5,14]') {
         cardCounts.valuesArray = [1, 2, 3, 4, 5]
