@@ -446,6 +446,6 @@ describe('Winning strings', () => {
       card.eightOfSpades,
       card.sevenOfSpades
     )
-    expect(hand.getFullName()).toBe("Jack-high Straight Flush")
+    expect(hand.getFullName()).toBe('Jack-high Straight Flush')
   })
 })
