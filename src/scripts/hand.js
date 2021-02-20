@@ -218,6 +218,7 @@ export default class Hand {
       // Handle unique case where Ace is low in a 5-high "wheel" straight
       if (JSON.stringify(cardCounts.valuesArray) === '[2,3,4,5,14]') {
         cardCounts.valuesArray = [1, 2, 3, 4, 5]
+        cardCounts.highCard = 5
         cardCounts['hasStraight'] = true
       } else {
         cardCounts['hasStraight'] = this.#hasStraight(cardCounts.valuesArray)
