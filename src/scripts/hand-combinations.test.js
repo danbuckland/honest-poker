@@ -1,5 +1,5 @@
 import { getBestHand } from './hand-combinations'
-import * as card from './test-cards'
+import * as card from '../test-data/cards'
 
 describe('should find the best possible combination of 5 cards from 7 cards', () => {
   test('should identify the best hand as Three of a Kind when given 3 aces in 7 cards', () => {

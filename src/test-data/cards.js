@@ -1,5 +1,5 @@
 // Test Card data
-import Card from './card'
+import Card from '../scripts/card'
 
 export const aceOfClubs = new Card('Ace', 'Clubs', 14, 'AC')
 export const kingOfClubs = new Card('King', 'Clubs', 13, 'KC')
@@ -32,6 +32,7 @@ export const jackOfSpades = new Card('Jack', 'Spades', 11, 'JS')
 export const tenOfSpades = new Card(10, 'Spades', 10, 'TS')
 export const nineOfSpades = new Card(9, 'Spades', 9, '9S')
 export const eightOfSpades = new Card(8, 'Spades', 8, '8S')
+export const sevenOfSpades = new Card(7, 'Spades', 7, '7S')
 export const sixOfSpades = new Card(6, 'Spades', 6, '6S')
 export const fiveOfSpades = new Card(5, 'Spades', 5, '5S')
 export const fourOfSpades = new Card(4, 'Spades', 4, '4S')

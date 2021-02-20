@@ -31,7 +31,7 @@ const renderCards = (cards) => {
 
 const showWinningHand = (cards) => {
   hand.addCards(...cards)
-  bestHandText.textContent = `You won with ${hand.getName()}!`
+  bestHandText.textContent = `The best hand is ${hand.getFullName()}`
   console.log(prettyPrint(cards))
 }
 
