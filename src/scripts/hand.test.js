@@ -1,5 +1,5 @@
 import Hand from './hand'
-import * as card from './test-cards'
+import * as card from '../test-data/cards'
 
 describe('Hand ranking logic for incomplete hands', () => {
   test('should identify "High Card" when provided any 2 cards that are not a pair', () => {
@@ -89,6 +89,19 @@ describe('Hand ranking logic for 5 card hands', () => {
     expect(hand.getName()).toBe('Straight Flush')
   })
 
+  test('should identify "Straight Flush" when an Ace is used as a low card in suited Ace, 2, 3, 4, 5', () => {
+    const hand = new Hand(
+      card.twoOfSpades,
+      card.threeOfSpades,
+      card.fourOfSpades,
+      card.fiveOfSpades,
+      card.aceOfSpades
+    )
+    expect(hand.getRank()).toBe(8)
+    expect(hand.getName()).toBe('Straight Flush')
+    expect(hand.getFullName()).toBe('5-high Straight Flush')
+  })
+
   test('should identify "Four of a Kind" when 4 cards each have the same value', () => {
     const hand = new Hand(
       card.aceOfClubs,
@@ -147,6 +160,7 @@ describe('Hand ranking logic for 5 card hands', () => {
     )
     expect(hand.getRank()).toBe(4)
     expect(hand.getName()).toBe('Straight')
+    expect(hand.getFullName()).toBe('5-high Straight')
   })
 
   test('should identify "Three of a Kind" when 5 cards contain 3 cards of the same value', () => {
@@ -416,5 +430,22 @@ describe('Empty hand method', () => {
     fullHand.empty()
     expect(fullHand.cards.length).toBe(0)
     expect(fullHand.score).toBe(0)
+    fullHand.addCards(card.twoOfClubs, card.twoOfDiamonds)
+    expect(fullHand.cards.length).toBe(2)
+    expect(fullHand.getRank()).toBe(1)
+    expect(fullHand.score).toBe(1004394)
+  })
+})
+
+describe('Winning strings', () => {
+  test('should return "Jack-high Straight Flush" when highest card in a Straight Flush is a Jack', () => {
+    const hand = new Hand(
+      card.jackOfSpades,
+      card.tenOfSpades,
+      card.nineOfSpades,
+      card.eightOfSpades,
+      card.sevenOfSpades
+    )
+    expect(hand.getFullName()).toBe("Jack-high Straight Flush")
   })
 })

@@ -1,3 +1,5 @@
+import Card from './card'
+
 export default class Hand {
   rankings = [
     'High Card',
@@ -12,12 +14,29 @@ export default class Hand {
     'Royal Flush',
   ]
 
+  cardNames = [
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    'Jack',
+    'Queen',
+    'King',
+    'Ace',
+  ]
+
   constructor(...cards) {
     if (cards.length > 5) {
       throw Error('Hands must contain 5 or less cards')
     }
     this.cards = [...cards]
     this.score = this.getScore()
+    this.cardCounts
   }
 
   addCards(...cards) {
@@ -33,10 +52,44 @@ export default class Hand {
   empty() {
     this.cards = []
     this.score = 0
+    this.cardCounts = {}
   }
 
   getName() {
     return this.rankings[this.getRank()]
+  }
+
+  getFullName() {
+    const highCardName = this.cardNames[this.cardCounts.highCard - 2]
+    const firstPairName = this.cardNames[this.cardCounts.pairs[0] - 2]
+    const secondPairName = this.cardNames[this.cardCounts.pairs[1] - 2]
+    const tripleName = this.cardNames[this.cardCounts.threeOfAKind - 2]
+    const quadrupleName = this.cardNames[this.cardCounts.fourOfAKind - 2]
+
+    switch (this.getRank()) {
+      case 0:
+        return `${this.rankings[0]}, ${highCardName}`
+      case 1:
+        return `${this.rankings[1]} of ${firstPairName}s`
+      case 2:
+        return `${this.rankings[2]}, ${secondPairName}s over ${firstPairName}s`
+      case 3:
+        return `${this.rankings[3]}, ${tripleName}s`
+      case 4:
+        return `${highCardName}-high ${this.rankings[4]}`
+      case 5:
+        return `${highCardName}-high ${this.rankings[5]}`
+      case 6:
+        return `${this.rankings[6]}, ${tripleName}s over ${firstPairName}s`
+      case 7:
+        return `${this.rankings[7]}, ${quadrupleName}s`
+      case 8:
+        return `${highCardName}-high ${this.rankings[8]}`
+      case 9:
+        return this.rankings[9]
+      default:
+        return this.getName()
+    }
   }
 
   // Returns a value corresponding to the rankings array
@@ -48,7 +101,8 @@ export default class Hand {
   getScore() {
     if (this.cards.length === 0) return 0
 
-    const cardCounts = this.#getCounts()
+    this.cardCounts = this.#getCounts()
+    const cardCounts = this.cardCounts
     const highCard = cardCounts.highCard
 
     if (cardCounts.hasFlush && cardCounts.hasStraight) {
@@ -158,8 +212,8 @@ export default class Hand {
       cardCounts.valuesArray.push(card.value)
     })
 
-    cardCounts['highCard'] = Math.max(...cardCounts.valuesArray)
     cardCounts.valuesArray.sort((a, b) => a - b)
+    cardCounts['highCard'] = cardCounts.valuesArray.slice(-1)[0]
     if (this.cards.length === 5) {
       // Handle unique case where Ace is low in a 5-high "wheel" straight
       if (JSON.stringify(cardCounts.valuesArray) === '[2,3,4,5,14]') {
