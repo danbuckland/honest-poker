@@ -4,7 +4,7 @@
   "description": "A web based multiplayer poker game",
   "main": "index.js",
   "scripts": {
-    "dev-server": "webpack serve --mode development",
+    "dev-server": "webpack serve --https --mode development",
     "build": "webpack --mode production",
     "test": "jest --verbose"
   },
@@ -18,7 +18,9 @@
     "url": "https://github.com/danbuckland/honest-poker/issues"
   },
   "homepage": "https://github.com/danbuckland/honest-poker#readme",
-  "dependencies": {},
+  "dependencies": {
+    "socket.io-client": "^3.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.13",
     "@babel/preset-env": "^7.12.13",

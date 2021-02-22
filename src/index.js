@@ -1,6 +1,13 @@
 import Game from './scripts/game'
 import Hand from './scripts/hand'
 import './styles.css'
+import io from 'socket.io-client'
+
+const socket = io('wss://localhost:7000')
+
+socket.on('connect', () => {
+  console.log('connected')
+})
 
 const poker = new Game()
 
