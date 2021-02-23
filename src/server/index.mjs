@@ -17,6 +17,12 @@ const io = new Server(httpServer, {
 
 io.on('connection', (socket) => {
   console.log(`${socket.id} connected`)
+
+  socket.on('disconnect', () => {
+    console.log(`${socket.id} disconnected`)
+  })
 })
+
+
 
 httpServer.listen(7000)
