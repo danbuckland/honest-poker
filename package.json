@@ -4,7 +4,7 @@
   "description": "A web based multiplayer poker game",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack serve --https --mode development",
+    "serve": "webpack serve --https --host 0.0.0.0 --mode development",
     "socketio": "nodemon src/server/index.mjs",
     "build": "webpack --mode production",
     "test": "jest --verbose"

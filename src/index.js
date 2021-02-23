@@ -1,21 +1,28 @@
-import Game from './scripts/game'
 import Hand from './scripts/hand'
 import './styles.css'
 import io from 'socket.io-client'
 
-const socket = io('wss://localhost:7000')
+const socket = io(`wss://${window.location.hostname}:7000`)
 
 socket.on('connect', () => {
   console.log(`Connected as ${socket.id}`)
 })
 
-const poker = new Game()
+socket.on('start', (data) => {
+  renderCards(data)
+  showWinningHand(data)
+})
+
+socket.on('draw', (data) => {
+  renderCards(data)
+  showWinningHand(data)
+})
+
+const hand = new Hand()
 
 const communityCards = document.querySelector('#community-cards')
 const redrawButton = document.querySelector('#redraw')
 const bestHandText = document.querySelector('#best-hand-text')
-
-const hand = new Hand()
 
 const prettyPrint = (cards) => {
   let prettyString = ''
@@ -37,19 +44,14 @@ const renderCards = (cards) => {
 }
 
 const showWinningHand = (cards) => {
+  hand.empty()
   hand.addCards(...cards)
   bestHandText.textContent = `The best hand is ${hand.getFullName()}`
   console.log(prettyPrint(cards))
 }
 
 redrawButton.addEventListener('click', () => {
-  poker.reset()
-  hand.empty()
-  drawnCards = poker.deck.draw(5)
-  renderCards(drawnCards)
-  showWinningHand(drawnCards)
+  socket.emit('draw')
 })
 
-let drawnCards = poker.deck.draw(5)
-renderCards(drawnCards)
-showWinningHand(drawnCards)
+

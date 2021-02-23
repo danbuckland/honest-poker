@@ -1,7 +1,7 @@
 import Game from './game'
 import Deck from './deck'
 
-describe('Game constructror', () => {
+describe('Game constructor', () => {
   test('should initialise a new game with a fresh deck of cards', () => {
     const game = new Game()
     expect(game.deck.cards.length).toBe(52)

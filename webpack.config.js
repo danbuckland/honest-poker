@@ -27,9 +27,9 @@ module.exports = {
     ],
   },
   devServer: {
-      https: true,
-      key: fs.readFileSync('./localhost-key.pem'),
-      cert: fs.readFileSync('./localhost.pem'),
+    https: true,
+    key: fs.readFileSync('./localhost-key.pem'),
+    cert: fs.readFileSync('./localhost.pem'),
     contentBase: path.join(__dirname, 'public'),
     publicPath: '/scripts/',
   },
