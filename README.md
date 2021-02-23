@@ -9,9 +9,14 @@ The goal of this project is to improve my JavaScript knowledge and make use of t
 yarn
 ```
 
-## Run locally
+## Run app locally
 ```bash
-yarn dev-server
+yarn serve
+```
+
+## Run Socket.IO server locally
+```bash
+yarn serve
 ```
 
 ## Run tests
