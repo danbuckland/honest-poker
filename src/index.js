@@ -6,7 +6,7 @@ import io from 'socket.io-client'
 const socket = io('wss://localhost:7000')
 
 socket.on('connect', () => {
-  console.log('connected')
+  console.log(`Connected as ${socket.id}`)
 })
 
 const poker = new Game()
