@@ -26,7 +26,7 @@ const hand = new Hand(...communityCards)
 io.on('connection', (socket) => {
   console.log(`${socket.id} connected`)
 
-  io.emit('start', {
+  socket.emit('start', {
     communityCards,
     hand, 
     fullName: hand.getFullName()

@@ -2,6 +2,9 @@ import './styles.css'
 import io from 'socket.io-client'
 
 const socket = io(`wss://${window.location.hostname}:7000`)
+const communityCards = document.querySelector('#community-cards')
+const redrawButton = document.querySelector('#redraw')
+const bestHandText = document.querySelector('#best-hand-text')
 
 socket.on('connect', () => {
   console.log(`Connected as ${socket.id}`)
@@ -16,10 +19,6 @@ socket.on('draw', (data) => {
   renderCards(data.hand.cards)
   showWinningHand(data)
 })
-
-const communityCards = document.querySelector('#community-cards')
-const redrawButton = document.querySelector('#redraw')
-const bestHandText = document.querySelector('#best-hand-text')
 
 const prettyPrint = (cards) => {
   let prettyString = ''
