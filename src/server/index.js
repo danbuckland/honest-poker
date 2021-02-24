@@ -2,6 +2,7 @@ import { createServer } from 'https'
 import { Server } from 'socket.io'
 import fs from 'fs'
 import Game from './game.js'
+import Hand from './hand.js'
 
 const httpServer = createServer({
   key: fs.readFileSync('localhost-key.pem'),
@@ -20,16 +21,27 @@ const io = new Server(httpServer, {
 
 const serverGame = new Game()
 let communityCards = serverGame.deck.draw(5)
+const hand = new Hand(...communityCards)
 
 io.on('connection', (socket) => {
   console.log(`${socket.id} connected`)
 
-  io.emit('start', communityCards)
+  io.emit('start', {
+    communityCards,
+    hand, 
+    fullName: hand.getFullName()
+  })
 
   socket.on('draw', () => {
     serverGame.reset()
     communityCards = serverGame.deck.draw(5)
-    io.emit('draw', communityCards)
+    hand.empty()
+    hand.addCards(...communityCards)
+    io.emit('draw', {
+      communityCards,
+      hand, 
+      fullName: hand.getFullName() 
+    })
   })
   
   socket.on('disconnect', () => {

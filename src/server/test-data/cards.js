@@ -1,5 +1,5 @@
 // Test Card data
-import Card from '../server/card'
+import Card from '../scripts/card'
 
 export const aceOfClubs = new Card('Ace', 'Clubs', 14, 'AC')
 export const kingOfClubs = new Card('King', 'Clubs', 13, 'KC')

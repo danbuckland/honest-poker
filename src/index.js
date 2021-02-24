@@ -1,4 +1,3 @@
-import Hand from './scripts/hand.js'
 import './styles.css'
 import io from 'socket.io-client'
 
@@ -9,16 +8,14 @@ socket.on('connect', () => {
 })
 
 socket.on('start', (data) => {
-  renderCards(data)
+  renderCards(data.hand.cards)
   showWinningHand(data)
 })
 
 socket.on('draw', (data) => {
-  renderCards(data)
+  renderCards(data.hand.cards)
   showWinningHand(data)
 })
-
-const hand = new Hand()
 
 const communityCards = document.querySelector('#community-cards')
 const redrawButton = document.querySelector('#redraw')
@@ -43,11 +40,9 @@ const renderCards = (cards) => {
   })
 }
 
-const showWinningHand = (cards) => {
-  hand.empty()
-  hand.addCards(...cards)
-  bestHandText.textContent = `The best hand is ${hand.getFullName()}`
-  console.log(prettyPrint(cards))
+const showWinningHand = (data) => {
+  bestHandText.textContent = `The best hand is ${data.fullName}`
+  console.log(prettyPrint(data.hand.cards))
 }
 
 redrawButton.addEventListener('click', () => {
