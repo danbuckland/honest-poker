@@ -1,4 +1,4 @@
-import Hand from './hand'
+import Hand from './hand.js'
 
 const combinations = [
   [0, 1, 2, 3, 4],
@@ -16,7 +16,7 @@ const combinations = [
   [0, 2, 3, 5, 6],
   [0, 2, 4, 5, 6],
   [0, 3, 4, 5, 6],
-  [1, 1, 2, 3, 4],
+  [1, 2, 3, 4, 5],
   [1, 2, 3, 4, 6],
   [1, 2, 3, 5, 6],
   [1, 2, 4, 5, 6],
@@ -26,6 +26,7 @@ const combinations = [
 
 // Takes 7 cards and returns the rank of the best hand
 const getBestHand = (cards) => {
+  if (cards.length < 7) throw Error('Method called with less than 7 cards')
   let highScore = -1
   let bestHand = null
   combinations.forEach((combination) => {

@@ -3,6 +3,7 @@ import { Server } from 'socket.io'
 import fs from 'fs'
 import Game from './scripts/game.js'
 import Hand from './scripts/hand.js'
+import { getBestHand } from './scripts/hand-combinations.js'
 
 const httpServer = createServer({
   key: fs.readFileSync('localhost-key.pem'),
@@ -19,28 +20,45 @@ const io = new Server(httpServer, {
   // ...
 })
 
-const serverGame = new Game()
-let communityCards = serverGame.deck.draw(5)
-const hand = new Hand(...communityCards)
+const game = new Game()
+const serverGame = {
+  game,
+  communityCards: game.deck.draw(5)
+}
 
 io.on('connection', (socket) => {
   console.log(`${socket.id} connected`)
+  const playerHand = new Hand(serverGame.game.deck.draw(2))
+
+  const sevenCards = [...playerHand.cards[0], ...serverGame.communityCards]
+  const bestHand = getBestHand(sevenCards)
+  const bestHandName = bestHand.getFullName()
 
   socket.emit('start', {
-    communityCards,
-    hand, 
-    fullName: hand.getFullName()
+    serverGame,
+    playerHand,
+    bestHand,
+    bestHandName
   })
 
   socket.on('draw', () => {
-    serverGame.reset()
-    communityCards = serverGame.deck.draw(5)
-    hand.empty()
-    hand.addCards(...communityCards)
+    serverGame.game.reset()
+    serverGame.communityCards = serverGame.game.deck.draw(5)
     io.emit('draw', {
-      communityCards,
-      hand, 
-      fullName: hand.getFullName() 
+      serverGame
+    })
+  })
+
+  socket.on('dealToPlayer', () => {
+    playerHand.empty()
+    playerHand.addCards(serverGame.game.deck.draw(2))
+    const sevenCards = [...playerHand.cards[0], ...serverGame.communityCards]
+    const bestHand = getBestHand(sevenCards)
+    const bestHandName = bestHand.getFullName()
+    socket.emit('playerHand', {
+      playerHand,
+      bestHand, 
+      bestHandName
     })
   })
   

@@ -11,13 +11,19 @@ socket.on('connect', () => {
 })
 
 socket.on('start', (data) => {
-  renderCards(data.hand.cards)
-  showWinningHand(data)
+  renderCards(data.serverGame.communityCards)
+  showWinningHand(data.bestHandName)
+  console.log(prettyPrint(data.playerHand.cards[0]))
 })
 
 socket.on('draw', (data) => {
-  renderCards(data.hand.cards)
-  showWinningHand(data)
+  renderCards(data.serverGame.communityCards)
+  socket.emit('dealToPlayer')
+})
+
+socket.on('playerHand', (data) => {
+  showWinningHand(data.bestHandName)
+  console.log(prettyPrint(data.playerHand.cards[0]))
 })
 
 const prettyPrint = (cards) => {
@@ -39,9 +45,9 @@ const renderCards = (cards) => {
   })
 }
 
-const showWinningHand = (data) => {
-  bestHandText.textContent = `The best hand is ${data.fullName}`
-  console.log(prettyPrint(data.hand.cards))
+const showWinningHand = (bestHandName) => {
+  bestHandText.textContent = `The best hand is ${bestHandName}`
+  // console.log(prettyPrint(data.serverGame.communityCards))
 }
 
 redrawButton.addEventListener('click', () => {
