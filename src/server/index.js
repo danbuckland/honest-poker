@@ -1,8 +1,8 @@
 import { createServer } from 'https'
 import { Server } from 'socket.io'
 import fs from 'fs'
-import Game from './game.js'
-import Hand from './hand.js'
+import Game from './scripts/game.js'
+import Hand from './scripts/hand.js'
 
 const httpServer = createServer({
   key: fs.readFileSync('localhost-key.pem'),
