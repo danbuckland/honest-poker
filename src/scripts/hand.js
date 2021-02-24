@@ -1,5 +1,3 @@
-import Card from './card'
-
 export default class Hand {
   rankings = [
     'High Card',

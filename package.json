@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "webpack serve --https --host 0.0.0.0 --mode development",
-    "socketio": "nodemon src/server/index.mjs",
+    "socketio": "nodemon src/server/index.js",
     "build": "webpack --mode production",
     "test": "jest --verbose"
   },
@@ -42,5 +42,6 @@
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true
-  }
+  },
+  "type": "module"
 }

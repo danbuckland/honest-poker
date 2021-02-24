@@ -1,4 +1,4 @@
-import Deck from './deck.mjs'
+import Deck from './deck.js'
 
 export default class Game {
   constructor() {

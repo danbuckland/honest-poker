@@ -1,7 +1,11 @@
-const path = require('path')
-const fs = require('fs')
+import * as path from 'path'
+import fs from 'fs'
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export default {
   mode: 'none',
   entry: './src/index.js',
   output: {

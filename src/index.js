@@ -1,4 +1,4 @@
-import Hand from './scripts/hand'
+import Hand from './scripts/hand.js'
 import './styles.css'
 import io from 'socket.io-client'
 
@@ -53,5 +53,3 @@ const showWinningHand = (cards) => {
 redrawButton.addEventListener('click', () => {
   socket.emit('draw')
 })
-
-
