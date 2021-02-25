@@ -14,7 +14,7 @@ const httpServer = createServer({
 
 const io = new Server(httpServer, {
   cors: {
-    origin: true
+    origin: true,
     // origin: ['https://localhost:8080', 'https://0.0.0.0:8080'],
   },
   // ...
@@ -23,11 +23,20 @@ const io = new Server(httpServer, {
 const game = new Game()
 const serverGame = {
   game,
-  communityCards: game.deck.draw(5)
+  communityCards: game.deck.draw(5),
 }
 
 io.on('connection', (socket) => {
   console.log(`${socket.id} connected`)
+  if (serverGame.game.deck.cards.length < 2) {
+    // Temporary fix to avoid server crashing after multiple refreshes
+    console.log('No cards left, resetting game for all players')
+    serverGame.game.reset()
+    serverGame.communityCards = serverGame.game.deck.draw(5)
+    io.emit('draw', {
+      serverGame,
+    })
+  }
   const playerHand = new Hand(serverGame.game.deck.draw(2))
 
   const sevenCards = [...playerHand.cards[0], ...serverGame.communityCards]
@@ -38,14 +47,14 @@ io.on('connection', (socket) => {
     serverGame,
     playerHand,
     bestHand,
-    bestHandName
+    bestHandName,
   })
 
   socket.on('draw', () => {
     serverGame.game.reset()
     serverGame.communityCards = serverGame.game.deck.draw(5)
     io.emit('draw', {
-      serverGame
+      serverGame,
     })
   })
 
@@ -57,11 +66,11 @@ io.on('connection', (socket) => {
     const bestHandName = bestHand.getFullName()
     socket.emit('playerHand', {
       playerHand,
-      bestHand, 
-      bestHandName
+      bestHand,
+      bestHandName,
     })
   })
-  
+
   socket.on('disconnect', () => {
     console.log(`${socket.id} disconnected`)
   })
