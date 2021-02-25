@@ -5,6 +5,7 @@ const socket = io(`wss://${window.location.hostname}:7000`)
 const communityCards = document.querySelector('#community-cards')
 const redrawButton = document.querySelector('#redraw')
 const bestHandText = document.querySelector('#best-hand-text')
+const playerCards = document.querySelector('#player-cards')
 
 socket.on('connect', () => {
   console.log(`Connected as ${socket.id}`)
@@ -13,7 +14,9 @@ socket.on('connect', () => {
 socket.on('start', (data) => {
   renderCards(data.serverGame.communityCards)
   showWinningHand(data.bestHandName)
-  console.log(prettyPrint(data.playerHand.cards[0]))
+  let playerCardData = data.playerHand.cards[0]
+  console.log(prettyPrint(playerCardData))
+  renderPlayerCards(playerCardData)
 })
 
 socket.on('draw', (data) => {
@@ -22,8 +25,10 @@ socket.on('draw', (data) => {
 })
 
 socket.on('playerHand', (data) => {
+  let playerCardData = data.playerHand.cards[0]
   showWinningHand(data.bestHandName)
-  console.log(prettyPrint(data.playerHand.cards[0]))
+  console.log(prettyPrint(playerCardData))
+  renderPlayerCards(playerCardData)
 })
 
 const prettyPrint = (cards) => {
@@ -45,8 +50,19 @@ const renderCards = (cards) => {
   })
 }
 
+const renderPlayerCards = (cards) => {
+  playerCards.innerHTML = ''
+  cards.forEach((card) => {
+    const cardImage = document.createElement('img')
+    cardImage.setAttribute('src', `cards/${card.code}.svg`)
+    cardImage.setAttribute('class', 'player-card')
+    cardImage.setAttribute('alt', `${card.name} of ${card.suit}`)
+    playerCards.appendChild(cardImage)
+  })
+}
+
 const showWinningHand = (bestHandName) => {
-  bestHandText.textContent = `The best hand is ${bestHandName}`
+  bestHandText.textContent = `Your best hand is a ${bestHandName}`
   // console.log(prettyPrint(data.serverGame.communityCards))
 }
 

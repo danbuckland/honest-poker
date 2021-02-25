@@ -13,9 +13,28 @@ body {
   width: calc(18%);
 }
 
+.player-card {
+  width: calc(55%);
+  margin-top: 3rem;
+}
+.player-card:first-child {
+  margin-right: -5%;
+  transform: rotate(-10deg);
+}
+.player-card:last-child {
+  margin-left: -5%;
+  transform: rotate(10deg);
+}
+
 .community-cards {
   margin: 3rem auto 0 auto;
   width: 80%;
+}
+
+.player-cards {
+  margin: 0 auto 0 auto;
+  width: 40%;
+  bottom: 0%;
 }
 
 .button {
