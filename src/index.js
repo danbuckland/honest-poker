@@ -1,14 +1,35 @@
-import Game from './scripts/game'
-import Hand from './scripts/hand'
 import './styles.css'
+import io from 'socket.io-client'
 
-const poker = new Game()
-
+const socket = io(`wss://${window.location.hostname}:7000`)
 const communityCards = document.querySelector('#community-cards')
 const redrawButton = document.querySelector('#redraw')
 const bestHandText = document.querySelector('#best-hand-text')
+const playerCards = document.querySelector('#player-cards')
 
-const hand = new Hand()
+socket.on('connect', () => {
+  console.log(`Connected as ${socket.id}`)
+})
+
+socket.on('start', (data) => {
+  renderCards(data.serverGame.communityCards)
+  showWinningHand(data.bestHandName)
+  let playerCardData = data.playerHand.cards[0]
+  console.log(prettyPrint(playerCardData))
+  renderPlayerCards(playerCardData)
+})
+
+socket.on('draw', (data) => {
+  renderCards(data.serverGame.communityCards)
+  socket.emit('dealToPlayer')
+})
+
+socket.on('playerHand', (data) => {
+  let playerCardData = data.playerHand.cards[0]
+  showWinningHand(data.bestHandName)
+  console.log(prettyPrint(playerCardData))
+  renderPlayerCards(playerCardData)
+})
 
 const prettyPrint = (cards) => {
   let prettyString = ''
@@ -29,20 +50,22 @@ const renderCards = (cards) => {
   })
 }
 
-const showWinningHand = (cards) => {
-  hand.addCards(...cards)
-  bestHandText.textContent = `The best hand is ${hand.getFullName()}`
-  console.log(prettyPrint(cards))
+const renderPlayerCards = (cards) => {
+  playerCards.innerHTML = ''
+  cards.forEach((card) => {
+    const cardImage = document.createElement('img')
+    cardImage.setAttribute('src', `cards/${card.code}.svg`)
+    cardImage.setAttribute('class', 'player-card')
+    cardImage.setAttribute('alt', `${card.name} of ${card.suit}`)
+    playerCards.appendChild(cardImage)
+  })
+}
+
+const showWinningHand = (bestHandName) => {
+  bestHandText.textContent = `Your best hand is a ${bestHandName}`
+  // console.log(prettyPrint(data.serverGame.communityCards))
 }
 
 redrawButton.addEventListener('click', () => {
-  poker.reset()
-  hand.empty()
-  drawnCards = poker.deck.draw(5)
-  renderCards(drawnCards)
-  showWinningHand(drawnCards)
+  socket.emit('draw')
 })
-
-let drawnCards = poker.deck.draw(5)
-renderCards(drawnCards)
-showWinningHand(drawnCards)

@@ -1,6 +1,11 @@
-const path = require('path')
+import * as path from 'path'
+import fs from 'fs'
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export default {
   mode: 'none',
   entry: './src/index.js',
   output: {
@@ -26,6 +31,9 @@ module.exports = {
     ],
   },
   devServer: {
+    https: true,
+    key: fs.readFileSync('./localhost-key.pem'),
+    cert: fs.readFileSync('./localhost.pem'),
     contentBase: path.join(__dirname, 'public'),
     publicPath: '/scripts/',
   },

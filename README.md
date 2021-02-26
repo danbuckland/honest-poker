@@ -1,6 +1,6 @@
 # Honest Poker
 
-An 11 month long endeavour to build a web based multiplayer poker game in VR. It's called Honest Poker because I probably won't build any logic to prevent players from cheating!
+An endeavour to build a web based multiplayer poker game. It's called Honest Poker because building logic that would prevent players from cheating seems like a stretch goal!
 
 The goal of this project is to improve my JavaScript knowledge and make use of the tools, technologies and techniques that I learn throughout 2021.
 
@@ -9,9 +9,14 @@ The goal of this project is to improve my JavaScript knowledge and make use of t
 yarn
 ```
 
-## Run locally
+## Run app locally
 ```bash
-yarn dev-server
+yarn serve
+```
+
+## Run Socket.IO server locally
+```bash
+yarn socketio
 ```
 
 ## Run tests
