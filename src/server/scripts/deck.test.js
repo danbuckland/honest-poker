@@ -25,21 +25,19 @@ describe('Deck constructor', () => {
 
   test('should consider Ace to have the highest value', () => {
     const deck = new Deck()
-    let drawnCard = deck.draw(1)[0]
+    let drawnCard = deck.draw()
     while (drawnCard.name !== 'Ace') {
-      drawnCard = deck.draw(1)[0]
+      drawnCard = deck.draw()
     }
     expect(drawnCard.value).toBe(14)
   })
 })
 
 describe('Draw card function', () => {
-  test('should return an array containing 1 card when 1 is requested', () => {
+  test('should return a single Card object when draw is called without an argument', () => {
     const deck = new Deck()
-    const drawnCards = deck.draw(1)
-    expect(drawnCards.length).toBe(1)
-    expect(drawnCards[0]).toBeInstanceOf(Card)
-    expect(deck.cards.length).toBe(51)
+    const drawnCard = deck.draw()
+    expect(drawnCard).toBeInstanceOf(Card)
   })
 
   test('should return an array containing 5 cards when 5 are requested', () => {

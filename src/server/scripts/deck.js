@@ -31,9 +31,10 @@ export default class Deck {
     return this
   }
 
-  draw(n) {
+  draw(numberOfCards = 1) {
+    if (numberOfCards === 1) return this.cards.pop()
     let drawnCards = []
-    for (let i = 0; i < n && this.cards.length; i++) {
+    for (let i = 0; i < numberOfCards && this.cards.length; i++) {
       drawnCards.push(this.cards.pop())
     }
     return drawnCards

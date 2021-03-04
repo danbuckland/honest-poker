@@ -99,65 +99,64 @@ export default class Hand {
   getScore() {
     if (this.cards.length === 0) return 0
 
-    this.cardCounts = this.#getCounts()
-    const cardCounts = this.cardCounts
-    const highCard = cardCounts.highCard
+    const cardCounts = (this.cardCounts = this.#getCounts())
+    const {
+      hasFlush,
+      hasStraight,
+      fourOfAKind,
+      threeOfAKind,
+      pairs,
+      valuesArray,
+      highCard,
+    } = this.cardCounts
 
-    if (cardCounts.hasFlush && cardCounts.hasStraight) {
+    if (hasFlush && hasStraight) {
       // Royal Flush - no tiebreaker
       if (highCard === 14) return 9_000_000
       // Straight Flush - high card tiebreaker
       return 8_000_000 + highCard
     }
     // 4 of a Kind - matching cards tiebreaker, no kicker
-    if (cardCounts.fourOfAKind) {
-      return 7_000_000 + this.#fourOfAKindTiebreaker(cardCounts)
-    }
+    if (fourOfAKind) return 7_000_000 + this.#fourOfAKindTiebreaker(cardCounts)
     // Full House - highest trip, then highest pair
-    if (cardCounts.threeOfAKind && cardCounts.pairs.length > 0) {
+    if (threeOfAKind && pairs.length > 0) {
       return (
         6_000_000 +
-        cardCounts.threeOfAKind * Math.pow(13, 2) +
-        parseInt(cardCounts.pairs[0]) * Math.pow(13, 1)
+        threeOfAKind * Math.pow(13, 2) +
+        parseInt(pairs[0]) * Math.pow(13, 1)
       )
     }
     // Flush - high card tiebreaker, followed by next highest card
-    if (cardCounts.hasFlush) {
-      return 5_000_000 + this.#highCardTiebreaker(cardCounts.valuesArray)
-    }
+    if (hasFlush) return 5_000_000 + this.#highCardTiebreaker(valuesArray)
     // Straight - high card tiebreaker
-    if (cardCounts.hasStraight) return 4_000_000 + highCard
+    if (hasStraight) return 4_000_000 + highCard
     // Three of a Kind - highest trip, then next highest cards
-    if (cardCounts.threeOfAKind) {
+    if (threeOfAKind)
       return 3_000_000 + this.#threeOfAKindTiebreaker(cardCounts)
-    }
     // Two Pair - highest top pair, then highest bottom pair, then highest remaining card
-    if (cardCounts.pairs.length === 2) {
+    if (pairs.length === 2)
       return 2_000_000 + this.#twoPairTiebreaker(cardCounts)
-    }
     // Pair - highest pair, then next highest cards
-    if (cardCounts.pairs.length === 1) {
-      return 1_000_000 + this.#pairTiebreaker(cardCounts)
-    }
+    if (pairs.length === 1) return 1_000_000 + this.#pairTiebreaker(cardCounts)
     // High card - Highest card then next highest card
-    return 0 + this.#highCardTiebreaker(cardCounts.valuesArray)
+    return 0 + this.#highCardTiebreaker(valuesArray)
   }
 
-  #fourOfAKindTiebreaker(cardCounts) {
-    const quadrupleScore = cardCounts.fourOfAKind * Math.pow(13, 3)
+  #fourOfAKindTiebreaker({ fourOfAKind, valuesArray }) {
+    const quadrupleScore = fourOfAKind * Math.pow(13, 3)
     let kicker = 0
     if (this.cards.length === 5) {
-      kicker = cardCounts.valuesArray.filter((value) => {
-        return value !== parseInt(cardCounts.fourOfAKind)
+      kicker = valuesArray.filter((value) => {
+        return value !== parseInt(fourOfAKind)
       })[0]
     }
     return quadrupleScore + kicker
   }
 
-  #threeOfAKindTiebreaker(cardCounts) {
-    const tripleScore = cardCounts.threeOfAKind * Math.pow(13, 2)
-    const nonMatchingCards = cardCounts.valuesArray.filter((value) => {
-      return value !== parseInt(cardCounts.threeOfAKind)
+  #threeOfAKindTiebreaker({ threeOfAKind, valuesArray }) {
+    const tripleScore = threeOfAKind * Math.pow(13, 2)
+    const nonMatchingCards = valuesArray.filter((value) => {
+      return value !== parseInt(threeOfAKind)
     })
     return this.#highCardTiebreaker(nonMatchingCards) + tripleScore
   }
@@ -170,26 +169,26 @@ export default class Hand {
     return sum
   }
 
-  #twoPairTiebreaker(cardCounts) {
-    cardCounts.pairs.sort((a, b) => a - b)
-    const topPair = cardCounts.pairs[1]
-    const bottomPair = cardCounts.pairs[0]
+  #twoPairTiebreaker({ pairs, valuesArray }) {
+    pairs.sort((a, b) => a - b)
+    const topPair = pairs[1]
+    const bottomPair = pairs[0]
     const topPairScore = topPair * Math.pow(13, 2)
     const bottomPairScore = bottomPair * Math.pow(13, 1)
     let kicker = 0
     if (this.cards.length === 5) {
-      kicker = cardCounts.valuesArray.filter((value) => {
+      kicker = valuesArray.filter((value) => {
         return value !== parseInt(topPair) && value !== parseInt(bottomPair)
       })[0]
     }
     return topPairScore + bottomPairScore + kicker
   }
 
-  #pairTiebreaker(cardCounts) {
-    const pair = cardCounts.pairs[0]
+  #pairTiebreaker({ pairs, valuesArray }) {
+    const pair = pairs[0]
     const pairScore = pair * Math.pow(13, 3)
-    const nonPairedCards = cardCounts.valuesArray.filter((value) => {
-      return value !== parseInt(cardCounts.pairs[0])
+    const nonPairedCards = valuesArray.filter((value) => {
+      return value !== parseInt(pairs[0])
     })
     return pairScore + this.#highCardTiebreaker(nonPairedCards)
   }
